@@ -1,5 +1,5 @@
 # Kamchatka
-
+ba
 Next.js 16 (App Router) + React 19 + TypeScript 5 + Tailwind CSS 4.
 
 ## Stack
