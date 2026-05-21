@@ -90,8 +90,9 @@ export default function Home(): React.ReactElement {
               <a href="#approach" className="hover:text-clay-deep transition">Подход</a>
               <a href="#tracks" className="hover:text-clay-deep transition">Треки</a>
               <a href="#formats" className="hover:text-clay-deep transition">Форматы</a>
+              <a href="#blog" className="hover:text-clay-deep transition">Блог</a>
             </div>
-            <BookingTrigger className="btn-primary hidden sm:inline-flex !py-2 !px-4 !text-[13px]">
+            <BookingTrigger className="btn-primary hidden sm:inline-flex py-2! px-4! text-[13px]!">
               Записаться
             </BookingTrigger>
           </nav>
@@ -145,9 +146,9 @@ export default function Home(): React.ReactElement {
 
             {/* Visual */}
             <div className="lg:col-span-5 relative animate-fade-up" style={{ animationDelay: "200ms" }}>
-              <div className="relative aspect-[4/5] w-full max-w-md mx-auto">
-                <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-sand to-cream-soft opacity-70 blur-2xl" />
-                <div className="relative h-full w-full overflow-hidden rounded-[2rem] shadow-soft-lg">
+              <div className="relative aspect-4/5 w-full max-w-md mx-auto">
+                <div className="absolute -inset-6 rounded-[2.5rem] bg-linear-to-br from-sand to-cream-soft opacity-70 blur-2xl" />
+                <div className="relative h-full w-full overflow-hidden rounded-4xl shadow-soft-lg">
                   <Image
                     src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=900&q=80&auto=format&fit=crop"
                     alt="Спокойствие и мягкий свет"
@@ -156,10 +157,10 @@ export default function Home(): React.ReactElement {
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-cream/30 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-cream/30 via-transparent to-transparent" />
                 </div>
                 {/* floating glass card */}
-                <div className="absolute -bottom-6 -left-6 sm:-left-10 glass-strong rounded-2xl px-5 py-4 shadow-soft max-w-[14rem]">
+                <div className="absolute -bottom-6 -left-6 sm:-left-10 glass-strong rounded-2xl px-5 py-4 shadow-soft max-w-56">
                   <div className="eyebrow text-[10px]">Состояние сегодня</div>
                   <div className="mt-2 font-serif text-lg text-ink leading-tight">Тишина внутри</div>
                   <div className="mt-3 flex items-end gap-1 h-8">
@@ -184,9 +185,9 @@ export default function Home(): React.ReactElement {
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <Reveal className="lg:col-span-5">
-              <div className="relative aspect-[4/5] max-w-sm rounded-[1.75rem] overflow-hidden shadow-soft-lg">
+              <div className="relative aspect-4/5 max-w-sm rounded-3xl overflow-hidden shadow-soft-lg">
                 <Image
-                  src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=800&q=80&auto=format&fit=crop"
+                  src="/vika.jpg"
                   alt="Виктория Сняткова"
                   fill
                   sizes="(max-width: 1024px) 100vw, 400px"
@@ -261,6 +262,109 @@ export default function Home(): React.ReactElement {
         </div>
       </section>
 
+      {/* CHAKRAS — 7 центров */}
+      <section id="chakras" className="relative py-24 sm:py-32 overflow-hidden">
+        <WaveBackground variant="section" />
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <Reveal className="lg:col-span-5">
+              <span className="eyebrow">7 центров</span>
+              <h2 className="mt-5 font-serif font-light text-4xl sm:text-5xl tracking-tight text-ink leading-[1.05]">
+                Волновой чекап по <span className="italic text-clay-deep">7 энергетическим центрам</span>
+              </h2>
+              <p className="mt-7 text-lg leading-relaxed text-ink-soft max-w-xl">
+                Во время чекапа я смотрю, как распределяется энергия по 7 основным центрам:
+                от базовой опоры и уверенности до самовыражения, интуиции и связи со своим
+                внутренним источником.
+              </p>
+              <p className="mt-5 text-base leading-relaxed text-muted max-w-xl">
+                Вы получаете не просто «проценты по чакрам», а живую расшифровку: где энергия
+                течёт свободно, где есть зажим, какие внутренние программы могут мешать,
+                что забирает ресурс — и как мягко вернуть себя в состояние ясности, силы и спокойствия.
+              </p>
+            </Reveal>
+
+            <Reveal className="lg:col-span-7" delay={150}>
+              <ul className="space-y-3">
+                {[
+                  { ru: "Сахасрара", en: "Связь со своим источником", color: "#c9b1d9", pct: 78 },
+                  { ru: "Аджна", en: "Интуиция, ясность, видение", color: "#a8a3d4", pct: 64 },
+                  { ru: "Вишудха", en: "Голос, самовыражение, правда", color: "#a8c3d4", pct: 82 },
+                  { ru: "Анахата", en: "Любовь, принятие, отношения", color: "#b8d4b0", pct: 71 },
+                  { ru: "Манипура", en: "Воля, личная сила, уверенность", color: "#e6cb86", pct: 58 },
+                  { ru: "Свадхистана", en: "Чувственность, удовольствие, поток", color: "#e3b08a", pct: 69 },
+                  { ru: "Муладхара", en: "Опора, безопасность, заземление", color: "#d99b8e", pct: 74 },
+                ].map((c, i) => (
+                  <li
+                    key={c.ru}
+                    className="group flex items-center gap-5 rounded-2xl border border-line/60 bg-cream/60 backdrop-blur-sm px-5 py-4 transition-all duration-500 hover:border-clay/40 hover:bg-cream"
+                    style={{ animationDelay: `${i * 60}ms` }}
+                  >
+                    <span className="relative shrink-0">
+                      <span
+                        className="block h-12 w-12 rounded-full blur-md opacity-70 absolute inset-0"
+                        style={{ background: c.color }}
+                      />
+                      <span
+                        className="relative block h-12 w-12 rounded-full shadow-soft"
+                        style={{
+                          background: `radial-gradient(circle at 35% 30%, #fff8 0%, ${c.color} 55%, ${c.color}dd 100%)`,
+                        }}
+                      />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <span className="font-serif text-lg text-ink leading-tight">{c.ru}</span>
+                        <span className="font-serif tabular-nums text-sm text-clay-deep">{c.pct}%</span>
+                      </div>
+                      <div className="text-xs text-muted mt-0.5 leading-snug">{c.en}</div>
+                      <div className="mt-2 h-0.5 rounded-full bg-line overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-1000"
+                          style={{ width: `${c.pct}%`, background: c.color }}
+                        />
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+
+          {/* что входит */}
+          <Reveal className="mt-20" delay={120}>
+            <div className="glass-strong rounded-3xl p-8 sm:p-12 shadow-soft">
+              <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+                <div className="lg:col-span-4">
+                  <span className="eyebrow">Что входит в чекап</span>
+                  <h3 className="mt-4 font-serif font-light text-3xl text-ink leading-[1.1]">
+                    Персональная работа,<br />
+                    <span className="italic text-clay-deep">собранная вручную</span> под вас
+                  </h3>
+                </div>
+                <ul className="lg:col-span-8 grid sm:grid-cols-2 gap-x-8 gap-y-4">
+                  {[
+                    "Диагностика 7 чакр в процентах",
+                    "Определение активного уровня реальности",
+                    "Разбор искажений и эмоциональных блоков",
+                    "Энергетические подключки и зоны утечки",
+                    "Инкарнационные сценарии по запросу",
+                    "Персональная вычетка",
+                    "Волновая частота / ритм для настройки",
+                    "Простая практика восстановления ресурса",
+                  ].map((t) => (
+                    <li key={t} className="flex items-start gap-3 text-[15px] text-ink-soft leading-relaxed">
+                      <span className="mt-2.5 h-px w-5 bg-clay-deep/70 shrink-0" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* REQUESTS */}
       <section className="relative py-24 sm:py-32">
         <WaveBackground variant="section" />
@@ -329,8 +433,8 @@ export default function Home(): React.ReactElement {
 
             <Reveal className="lg:col-span-5" delay={150}>
               <div className="relative">
-                <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-sand/60 to-cream blur-2xl" />
-                <div className="relative aspect-square overflow-hidden rounded-[1.75rem] shadow-soft-lg">
+                <div className="absolute -inset-4 rounded-[2.5rem] bg-linear-to-br from-sand/60 to-cream blur-2xl" />
+                <div className="relative aspect-square overflow-hidden rounded-3xl shadow-soft-lg">
                   <Image
                     src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=900&q=80&auto=format&fit=crop"
                     alt="Тишина и мягкий свет"
@@ -462,6 +566,82 @@ export default function Home(): React.ReactElement {
                     </div>
                   </figcaption>
                 </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* BLOG */}
+      <section id="blog" className="relative py-24 sm:py-32 bg-cream-soft/50">
+        <WaveBackground variant="deep" />
+        <div className="relative mx-auto max-w-6xl px-6">
+          <Reveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <span className="eyebrow">Блог</span>
+              <h2 className="mt-5 font-serif font-light text-4xl sm:text-5xl tracking-tight text-ink leading-[1.05]">
+                Тексты <span className="italic text-clay-deep">о состоянии</span>
+              </h2>
+              <p className="mt-5 text-base text-muted max-w-lg leading-relaxed">
+                Короткие заметки про энергию, тело, отношения и подсознательные сценарии.
+              </p>
+            </div>
+            <a href="#blog" className="btn-ghost self-start sm:self-auto">Все статьи</a>
+          </Reveal>
+
+          <div className="mt-14 grid md:grid-cols-3 gap-5">
+            {[
+              {
+                tag: "Энергия",
+                title: "Когда чакры «проседают» — что на самом деле происходит",
+                excerpt: "Почему «низкие проценты» — не диагноз, а сигнал, и как мягко вернуть поток.",
+                img: "https://images.unsplash.com/photo-1591291621164-2c6367723315?w=900&q=80&auto=format&fit=crop",
+                date: "12 мая",
+              },
+              {
+                tag: "Отношения",
+                title: "Повторяющиеся сценарии: почему мы выбираем одно и то же",
+                excerpt: "Как подсознательные опоры формируют партнёров — и как из этого выходить.",
+                img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=900&q=80&auto=format&fit=crop",
+                date: "28 апреля",
+              },
+              {
+                tag: "Ресурс",
+                title: "Тихое восстановление: 3 практики на каждый день",
+                excerpt: "Минимум усилий, максимум возвращения к себе — без насилия над состоянием.",
+                img: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=900&q=80&auto=format&fit=crop",
+                date: "14 апреля",
+              },
+            ].map((p, i) => (
+              <Reveal key={p.title} delay={i * 120}>
+                <article className="group h-full overflow-hidden rounded-3xl border border-line/60 bg-cream backdrop-blur-sm transition-all duration-500 hover:border-clay/40 hover:shadow-soft hover:-translate-y-1">
+                  <div className="relative aspect-4/3 overflow-hidden">
+                    <Image
+                      src={p.img}
+                      alt={p.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 380px"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-cream/40 via-transparent to-transparent" />
+                  </div>
+                  <div className="p-7">
+                    <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em]">
+                      <span className="text-clay-deep">{p.tag}</span>
+                      <span className="h-px w-6 bg-line" />
+                      <span className="text-muted">{p.date}</span>
+                    </div>
+                    <h3 className="mt-4 font-serif text-xl text-ink leading-snug">{p.title}</h3>
+                    <p className="mt-3 text-sm text-muted leading-relaxed">{p.excerpt}</p>
+                    <a
+                      href="#blog"
+                      className="mt-6 inline-flex items-center gap-2 text-sm text-ink border-b border-ink/30 pb-1 transition-all hover:border-ink"
+                    >
+                      Читать
+                      <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
+                    </a>
+                  </div>
+                </article>
               </Reveal>
             ))}
           </div>
