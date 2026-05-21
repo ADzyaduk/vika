@@ -16,6 +16,8 @@ import { WaveBackground } from "@/components/site/wave-background";
 import { Reveal } from "@/components/site/reveal";
 import { AudioPlayer } from "@/components/site/audio-player";
 import { BookingTrigger } from "@/components/site/booking";
+import { posts } from "@/lib/blog";
+import Link from "next/link";
 
 const requests = [
   { icon: Heart, title: "Отношения", text: "Возвращение тепла и контакта" },
@@ -586,35 +588,15 @@ export default function Home(): React.ReactElement {
                 Короткие заметки про энергию, тело, отношения и подсознательные сценарии.
               </p>
             </div>
-            <a href="#blog" className="btn-ghost self-start sm:self-auto">Все статьи</a>
           </Reveal>
 
           <div className="mt-14 grid md:grid-cols-3 gap-5">
-            {[
-              {
-                tag: "Энергия",
-                title: "Когда чакры «проседают» — что на самом деле происходит",
-                excerpt: "Почему «низкие проценты» — не диагноз, а сигнал, и как мягко вернуть поток.",
-                img: "https://images.unsplash.com/photo-1591291621164-2c6367723315?w=900&q=80&auto=format&fit=crop",
-                date: "12 мая",
-              },
-              {
-                tag: "Отношения",
-                title: "Повторяющиеся сценарии: почему мы выбираем одно и то же",
-                excerpt: "Как подсознательные опоры формируют партнёров — и как из этого выходить.",
-                img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=900&q=80&auto=format&fit=crop",
-                date: "28 апреля",
-              },
-              {
-                tag: "Ресурс",
-                title: "Тихое восстановление: 3 практики на каждый день",
-                excerpt: "Минимум усилий, максимум возвращения к себе — без насилия над состоянием.",
-                img: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=900&q=80&auto=format&fit=crop",
-                date: "14 апреля",
-              },
-            ].map((p, i) => (
-              <Reveal key={p.title} delay={i * 120}>
-                <article className="group h-full overflow-hidden rounded-3xl border border-line/60 bg-cream backdrop-blur-sm transition-all duration-500 hover:border-clay/40 hover:shadow-soft hover:-translate-y-1">
+            {posts.map((p, i) => (
+              <Reveal key={p.slug} delay={i * 120}>
+                <Link
+                  href={`/blog/${p.slug}`}
+                  className="group block h-full overflow-hidden rounded-3xl border border-line/60 bg-cream backdrop-blur-sm transition-all duration-500 hover:border-clay/40 hover:shadow-soft hover:-translate-y-1"
+                >
                   <div className="relative aspect-4/3 overflow-hidden">
                     <Image
                       src={p.img}
@@ -633,15 +615,12 @@ export default function Home(): React.ReactElement {
                     </div>
                     <h3 className="mt-4 font-serif text-xl text-ink leading-snug">{p.title}</h3>
                     <p className="mt-3 text-sm text-muted leading-relaxed">{p.excerpt}</p>
-                    <a
-                      href="#blog"
-                      className="mt-6 inline-flex items-center gap-2 text-sm text-ink border-b border-ink/30 pb-1 transition-all hover:border-ink"
-                    >
+                    <span className="mt-6 inline-flex items-center gap-2 text-sm text-ink border-b border-ink/30 pb-1 transition-all group-hover:border-ink">
                       Читать
                       <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-                    </a>
+                    </span>
                   </div>
-                </article>
+                </Link>
               </Reveal>
             ))}
           </div>
