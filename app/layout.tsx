@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-import { BookingProvider } from "@/components/site/booking";
 
 const sans = Inter({
   variable: "--font-sans",
@@ -28,9 +27,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>): React.ReactElement {
   return (
     <html lang="ru" className={`${sans.variable} ${serif.variable} antialiased`}>
-      <body className="min-h-screen">
-        <BookingProvider>{children}</BookingProvider>
-      </body>
+      <body className="min-h-screen">{children}</body>
     </html>
   );
 }

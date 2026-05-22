@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { WaveBackground } from "@/components/site/wave-background";
-import { BookingTrigger } from "@/components/site/booking";
+import { TELEGRAM_URL } from "@/lib/contacts";
 import { posts, getPost } from "@/lib/blog";
 import type { Metadata } from "next";
 
@@ -65,8 +65,6 @@ export default async function BlogPost({
           <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em]">
             <span className="text-clay-deep">{post.tag}</span>
             <span className="h-px w-6 bg-line" />
-            <span className="text-muted">{post.date}</span>
-            <span className="h-px w-6 bg-line" />
             <span className="text-muted">{post.readTime}</span>
           </div>
           <h1 className="mt-6 font-serif font-light text-4xl sm:text-5xl md:text-6xl tracking-tight text-ink leading-[1.05]">
@@ -76,7 +74,7 @@ export default async function BlogPost({
         </div>
 
         <div className="relative mx-auto max-w-5xl px-6 mt-12">
-          <div className="relative aspect-16/9 overflow-hidden rounded-4xl shadow-soft-lg">
+          <div className="relative aspect-video overflow-hidden rounded-4xl shadow-soft-lg">
             <Image
               src={post.img}
               alt={post.title}
@@ -104,10 +102,15 @@ export default async function BlogPost({
             <p className="mt-4 text-sm text-muted max-w-md mx-auto leading-relaxed">
               Бережно, без оценок, в вашем темпе.
             </p>
-            <BookingTrigger className="btn-primary mt-6">
-              Записаться
+            <a
+              href={TELEGRAM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary mt-6"
+            >
+              Записаться в Telegram
               <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-            </BookingTrigger>
+            </a>
           </div>
         </div>
       </article>
@@ -139,7 +142,7 @@ export default async function BlogPost({
                   <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em]">
                     <span className="text-clay-deep">{p.tag}</span>
                     <span className="h-px w-6 bg-line" />
-                    <span className="text-muted">{p.date}</span>
+                    <span className="text-muted">{p.readTime}</span>
                   </div>
                   <h3 className="mt-4 font-serif text-xl text-ink leading-snug">{p.title}</h3>
                   <p className="mt-3 text-sm text-muted leading-relaxed">{p.excerpt}</p>

@@ -6,19 +6,53 @@ import { Play, Pause } from "lucide-react";
 type Track = {
   title: string;
   subtitle: string;
-  /** Base frequency in Hz for the synthesized pad (Web Audio fallback when no real file). */
-  tone: number;
+  src: string;
+  meta: string;
+  description: string;
   duration: number;
 };
 
 const TRACKS: Track[] = [
-  { title: "Тишина", subtitle: "Расслабление и заземление", tone: 174, duration: 240 },
-  { title: "Возвращение", subtitle: "Восстановление ресурса", tone: 285, duration: 300 },
-  { title: "Мягкая опора", subtitle: "Снижение тревоги", tone: 396, duration: 270 },
-  { title: "Контакт", subtitle: "Контакт с собой", tone: 528, duration: 330 },
+  {
+    title: "Расслабление и заземление",
+    subtitle: "Муладхара · Анахата",
+    src: "/universal_grounding_wave_checkup_136hz_4hz.wav",
+    meta: "136.1 Гц · бинаураль 4 Гц",
+    description:
+      "Снимает нервное напряжение, заземляет, снижает внутреннюю спешку, готовит к доверию и восприятию чекапа.",
+    duration: 300,
+  },
+  {
+    title: "Снижение тревоги",
+    subtitle: "Универсальный трек",
+    src: "/universal_anxiety_reduction_wave_track.wav",
+    meta: "174 / 180 Гц · бинаураль 6 Гц",
+    description:
+      "Успокоение, заземление и снижение внутренней спешки. Слушать в наушниках, удерживая внимание на стопах и выдохе.",
+    duration: 300,
+  },
+  {
+    title: "Контакт с собой",
+    subtitle: "Свадхистана · Анахата · Аджна",
+    src: "/universal_self_contact_track.wav",
+    meta: "174 / 136.1 / 432 / 528 Гц · тета 6 Гц",
+    description:
+      "Мягкое возвращение внимания из внешнего шума к телу, дыханию и внутренней опоре. Перед чекапом или самонаблюдением.",
+    duration: 300,
+  },
+  {
+    title: "Восстановление ресурса",
+    subtitle: "Универсальная опора",
+    src: "/universal_resource_restoration_783hz_binaural.wav",
+    meta: "7.83 Гц Шуман · 174 / 285 / 432 Гц",
+    description:
+      "Расслабление после перегруза, мягкое возвращение в тело, подготовка к практике. 7 спокойных выдохов перед началом.",
+    duration: 360,
+  },
 ];
 
 const formatTime = (s: number): string => {
+  if (!Number.isFinite(s)) return "0:00";
   const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60);
   return `${m}:${sec.toString().padStart(2, "0")}`;
@@ -27,131 +61,117 @@ const formatTime = (s: number): string => {
 export const AudioPlayer = (): React.ReactElement => {
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  const ctxRef = useRef<AudioContext | null>(null);
-  const nodesRef = useRef<{ osc: OscillatorNode[]; gain: GainNode } | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const startRef = useRef<number>(0);
-  const offsetRef = useRef<number>(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(TRACKS[0].duration);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const track = TRACKS[active];
 
-  const stopNodes = (): void => {
-    if (nodesRef.current) {
-      try {
-        nodesRef.current.gain.gain.cancelScheduledValues(0);
-        nodesRef.current.gain.gain.setTargetAtTime(0, ctxRef.current!.currentTime, 0.3);
-        for (const osc of nodesRef.current.osc) {
-          osc.stop(ctxRef.current!.currentTime + 0.5);
-        }
-      } catch {
-        /* noop */
-      }
-      nodesRef.current = null;
-    }
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
-  };
-
-  const start = (): void => {
-    if (!ctxRef.current) {
-      const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      ctxRef.current = new Ctx();
-    }
-    const ctx = ctxRef.current;
-    if (ctx.state === "suspended") void ctx.resume();
-
-    const gain = ctx.createGain();
-    gain.gain.value = 0;
-    gain.connect(ctx.destination);
-    gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 1.2);
-
-    const oscs: OscillatorNode[] = [];
-    for (const ratio of [1, 1.5, 2.005]) {
-      const osc = ctx.createOscillator();
-      osc.type = "sine";
-      osc.frequency.value = track.tone * ratio;
-      const subGain = ctx.createGain();
-      subGain.gain.value = ratio === 1 ? 0.7 : ratio === 1.5 ? 0.25 : 0.12;
-      osc.connect(subGain).connect(gain);
-      osc.start();
-      oscs.push(osc);
-    }
-
-    nodesRef.current = { osc: oscs, gain };
-    startRef.current = performance.now() / 1000 - offsetRef.current;
-
-    const tick = (): void => {
-      const elapsed = performance.now() / 1000 - startRef.current;
-      offsetRef.current = elapsed;
-      const pct = Math.min(elapsed / track.duration, 1);
-      setProgress(pct);
-      if (pct >= 1) {
-        setPlaying(false);
-        offsetRef.current = 0;
-        setProgress(0);
-        stopNodes();
-        return;
-      }
-      rafRef.current = requestAnimationFrame(tick);
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const onTime = (): void => setCurrentTime(audio.currentTime);
+    const onMeta = (): void => {
+      if (Number.isFinite(audio.duration)) setDuration(audio.duration);
     };
-    rafRef.current = requestAnimationFrame(tick);
-  };
+    const onEnd = (): void => {
+      setPlaying(false);
+      setCurrentTime(0);
+    };
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("loadedmetadata", onMeta);
+    audio.addEventListener("ended", onEnd);
+    return () => {
+      audio.removeEventListener("timeupdate", onTime);
+      audio.removeEventListener("loadedmetadata", onMeta);
+      audio.removeEventListener("ended", onEnd);
+    };
+  }, [active]);
 
   const toggle = (): void => {
+    const audio = audioRef.current;
+    if (!audio) return;
     if (playing) {
-      stopNodes();
+      audio.pause();
       setPlaying(false);
     } else {
-      start();
+      void audio.play();
       setPlaying(true);
     }
   };
 
   const selectTrack = (i: number): void => {
-    stopNodes();
-    offsetRef.current = 0;
-    setProgress(0);
+    if (i === active) return;
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
     setActive(i);
+    setCurrentTime(0);
+    setDuration(TRACKS[i].duration);
     setPlaying(false);
   };
 
-  useEffect(() => stopNodes, []);
+  const seek = (e: React.MouseEvent<HTMLDivElement>): void => {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    audio.currentTime = ratio * duration;
+    setCurrentTime(audio.currentTime);
+  };
+
+  const progress = duration ? currentTime / duration : 0;
 
   return (
     <div className="glass-strong shadow-soft-lg rounded-3xl p-6 sm:p-8 md:p-10">
+      <audio ref={audioRef} src={track.src} preload="metadata" />
+
       <div className="flex items-center gap-5 sm:gap-7">
         <button
           onClick={toggle}
           aria-label={playing ? "Пауза" : "Воспроизвести"}
           className="group flex h-16 w-16 sm:h-20 sm:w-20 shrink-0 items-center justify-center rounded-full bg-ink text-cream transition-all duration-500 hover:bg-clay-deep hover:scale-105"
         >
-          {playing ? <Pause className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} /> : <Play className="h-5 w-5 sm:h-6 sm:w-6 ml-0.5" strokeWidth={1.5} />}
+          {playing ? (
+            <Pause className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} />
+          ) : (
+            <Play className="h-5 w-5 sm:h-6 sm:w-6 ml-0.5" strokeWidth={1.5} />
+          )}
         </button>
         <div className="min-w-0 flex-1">
-          <div className="font-serif text-xl sm:text-2xl text-ink">{track.title}</div>
+          <div className="font-serif text-xl sm:text-2xl text-ink leading-tight">{track.title}</div>
           <div className="mt-0.5 text-sm text-muted">{track.subtitle}</div>
-          <div className="mt-4 flex items-center gap-3">
-            <div className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-line">
+          <div
+            onClick={seek}
+            className="mt-4 cursor-pointer py-2"
+            role="slider"
+            aria-valuenow={Math.round(progress * 100)}
+          >
+            <div className="relative h-0.5 overflow-hidden rounded-full bg-line">
               <div
                 className="absolute inset-y-0 left-0 rounded-full bg-clay-deep transition-[width] duration-200"
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
-            <span className="text-xs tabular-nums text-muted whitespace-nowrap">
-              {formatTime(progress * track.duration)} <span className="text-line">/</span> {formatTime(track.duration)}
-            </span>
+          </div>
+          <div className="mt-1 flex items-center justify-between text-xs tabular-nums text-muted">
+            <span>{formatTime(currentTime)}</span>
+            <span className="text-[11px] uppercase tracking-wider text-clay-deep">{track.meta}</span>
+            <span>{formatTime(duration)}</span>
           </div>
         </div>
       </div>
 
+      <p className="mt-6 text-sm leading-relaxed text-ink-soft border-t border-line/60 pt-5">
+        {track.description}
+      </p>
+
       <div className="mt-7 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {TRACKS.map((t, i) => (
           <button
-            key={t.title}
+            key={t.src}
             onClick={() => selectTrack(i)}
             className={`rounded-2xl border px-4 py-3 text-left transition-all duration-400 ${
               i === active
@@ -164,6 +184,12 @@ export const AudioPlayer = (): React.ReactElement => {
           </button>
         ))}
       </div>
+
+      <p className="mt-5 text-[11px] text-muted/80 leading-relaxed">
+        Слушайте в наушниках на комфортной громкости. Не используйте за рулём и в ситуациях,
+        где нужна повышенная концентрация. Трек не является медицинским средством и не заменяет
+        помощь специалиста.
+      </p>
     </div>
   );
 };

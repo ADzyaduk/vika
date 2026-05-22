@@ -9,18 +9,23 @@ import {
   Moon,
   RotateCw,
   Eye,
+  Users,
+  Baby,
   MessageCircle,
   Send,
+  Phone,
 } from "lucide-react";
 import { WaveBackground } from "@/components/site/wave-background";
 import { Reveal } from "@/components/site/reveal";
 import { AudioPlayer } from "@/components/site/audio-player";
-import { BookingTrigger } from "@/components/site/booking";
 import { posts } from "@/lib/blog";
+import { TELEGRAM_URL, WHATSAPP_URL, PHONE_URL } from "@/lib/contacts";
 import Link from "next/link";
 
 const requests = [
   { icon: Heart, title: "Отношения", text: "Возвращение тепла и контакта" },
+  { icon: Users, title: "Совместимость", text: "С партнёром или коллегой" },
+  { icon: Baby, title: "Отношения с детьми", text: "Гармония, контакт и опора" },
   { icon: Sparkles, title: "Самооценка", text: "Спокойная внутренняя ценность" },
   { icon: Flame, title: "Эмоциональное выгорание", text: "Восстановление сил" },
   { icon: Waves, title: "Тревога", text: "Мягкое возвращение в опору" },
@@ -94,9 +99,33 @@ export default function Home(): React.ReactElement {
               <a href="#formats" className="hover:text-clay-deep transition">Форматы</a>
               <a href="#blog" className="hover:text-clay-deep transition">Блог</a>
             </div>
-            <BookingTrigger className="btn-primary hidden sm:inline-flex py-2! px-4! text-[13px]!">
-              Записаться
-            </BookingTrigger>
+            <div className="flex items-center gap-1.5">
+              <a
+                href={PHONE_URL}
+                aria-label="Позвонить"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line/70 bg-cream/50 text-ink-soft transition hover:border-clay hover:text-clay-deep"
+              >
+                <Phone className="h-3.5 w-3.5" strokeWidth={1.5} />
+              </a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line/70 bg-cream/50 text-ink-soft transition hover:border-clay hover:text-clay-deep"
+              >
+                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.5} />
+              </a>
+              <a
+                href={TELEGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Telegram"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line/70 bg-cream/50 text-ink-soft transition hover:border-clay hover:text-clay-deep"
+              >
+                <Send className="h-3.5 w-3.5" strokeWidth={1.5} />
+              </a>
+            </div>
           </nav>
         </div>
       </header>
@@ -121,10 +150,15 @@ export default function Home(): React.ReactElement {
                 и повторяющихся жизненных сценариев.
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
-                <BookingTrigger className="btn-primary">
+                <a
+                  href={TELEGRAM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-primary"
+                >
                   Получить волновой чекап
                   <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-                </BookingTrigger>
+                </a>
                 <a href="#tracks" className="btn-ghost">Послушать волновой трек</a>
                 <a href="#formats" className="btn-ghost">Выбрать формат работы</a>
               </div>
@@ -152,7 +186,7 @@ export default function Home(): React.ReactElement {
                 <div className="absolute -inset-6 rounded-[2.5rem] bg-linear-to-br from-sand to-cream-soft opacity-70 blur-2xl" />
                 <div className="relative h-full w-full overflow-hidden rounded-4xl shadow-soft-lg">
                   <Image
-                    src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=900&q=80&auto=format&fit=crop"
+                    src="/hero.jpg"
                     alt="Спокойствие и мягкий свет"
                     fill
                     sizes="(max-width: 1024px) 100vw, 480px"
@@ -378,7 +412,7 @@ export default function Home(): React.ReactElement {
             </h2>
           </Reveal>
 
-          <ul className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ul className="mt-14 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {requests.map((r, i) => {
               const Icon = r.icon;
               return (
@@ -520,8 +554,10 @@ export default function Home(): React.ReactElement {
                       </li>
                     ))}
                   </ul>
-                  <BookingTrigger
-                    format={`${f.name} — ${f.price}`}
+                  <a
+                    href={TELEGRAM_URL}
+                    target="_blank"
+                    rel="noreferrer"
                     className={`mt-9 inline-flex items-center gap-2 text-sm border-b pb-1 transition-all ${
                       f.featured
                         ? "text-cream border-cream/40 hover:border-cream"
@@ -530,7 +566,7 @@ export default function Home(): React.ReactElement {
                   >
                     Записаться
                     <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-                  </BookingTrigger>
+                  </a>
                 </div>
               </Reveal>
             ))}
@@ -611,7 +647,7 @@ export default function Home(): React.ReactElement {
                     <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em]">
                       <span className="text-clay-deep">{p.tag}</span>
                       <span className="h-px w-6 bg-line" />
-                      <span className="text-muted">{p.date}</span>
+                      <span className="text-muted">{p.readTime}</span>
                     </div>
                     <h3 className="mt-4 font-serif text-xl text-ink leading-snug">{p.title}</h3>
                     <p className="mt-3 text-sm text-muted leading-relaxed">{p.excerpt}</p>
@@ -642,15 +678,11 @@ export default function Home(): React.ReactElement {
               и снова услышать самое тёплое внутри.
             </p>
             <div className="mt-12 flex flex-wrap justify-center gap-3">
-              <BookingTrigger className="btn-primary">
-                Записаться
-                <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-              </BookingTrigger>
-              <a href="https://t.me/" target="_blank" rel="noreferrer" className="btn-ghost">
+              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="btn-primary">
                 <Send className="h-4 w-4" strokeWidth={1.5} />
                 Telegram
               </a>
-              <a href="https://wa.me/" target="_blank" rel="noreferrer" className="btn-ghost">
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="btn-ghost">
                 <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                 WhatsApp
               </a>
@@ -660,18 +692,53 @@ export default function Home(): React.ReactElement {
       </section>
 
       {/* FOOTER */}
-      <footer className="relative border-t border-line/60 py-12 bg-cream">
-        <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted">
-          <div className="flex items-center gap-2.5">
-            <span className="relative inline-flex h-5 w-5 items-center justify-center">
-              <span className="absolute inset-0 rounded-full bg-clay/30" />
-              <span className="absolute inset-1 rounded-full bg-clay-deep" />
-            </span>
-            <span className="font-serif text-ink">Виктория Сняткова</span>
-            <span className="hidden sm:inline">·</span>
-            <span className="hidden sm:inline">Волновой чекап</span>
+      <footer className="relative border-t border-line/60 py-14 bg-cream">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div className="flex items-center gap-2.5">
+                <span className="relative inline-flex h-6 w-6 items-center justify-center">
+                  <span className="absolute inset-0 rounded-full bg-clay/30" />
+                  <span className="absolute inset-1 rounded-full bg-clay-deep" />
+                </span>
+                <span className="font-serif text-lg text-ink">Виктория Сняткова</span>
+              </div>
+              <p className="mt-2 text-sm text-muted">Волновой чекап · пространство, в котором слышно себя</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <a
+                href={PHONE_URL}
+                aria-label="Позвонить"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line/70 bg-cream/60 text-ink-soft transition hover:border-clay hover:text-clay-deep"
+              >
+                <Phone className="h-4 w-4" strokeWidth={1.5} />
+              </a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line/70 bg-cream/60 text-ink-soft transition hover:border-clay hover:text-clay-deep"
+              >
+                <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
+              </a>
+              <a
+                href={TELEGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Telegram"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line/70 bg-cream/60 text-ink-soft transition hover:border-clay hover:text-clay-deep"
+              >
+                <Send className="h-4 w-4" strokeWidth={1.5} />
+              </a>
+            </div>
           </div>
-          <div>© {new Date().getFullYear()} · Всё бережно</div>
+
+          <div className="mt-10 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted">
+            <div>© {new Date().getFullYear()} · Всё бережно</div>
+            <div className="opacity-70">Сайт не оказывает медицинских услуг</div>
+          </div>
         </div>
       </footer>
     </main>
