@@ -16,7 +16,7 @@ const TRACKS: Track[] = [
   {
     title: "Расслабление и заземление",
     subtitle: "Муладхара · Анахата",
-    src: "/universal_grounding_wave_checkup_136hz_4hz.wav",
+    src: "/universal_grounding_wave_checkup_136hz_4hz.mp3",
     meta: "136.1 Гц · бинаураль 4 Гц",
     description:
       "Снимает нервное напряжение, заземляет, снижает внутреннюю спешку, готовит к доверию и восприятию чекапа.",
@@ -25,7 +25,7 @@ const TRACKS: Track[] = [
   {
     title: "Снижение тревоги",
     subtitle: "Универсальный трек",
-    src: "/universal_anxiety_reduction_wave_track.wav",
+    src: "/universal_anxiety_reduction_wave_track.mp3",
     meta: "174 / 180 Гц · бинаураль 6 Гц",
     description:
       "Успокоение, заземление и снижение внутренней спешки. Слушать в наушниках, удерживая внимание на стопах и выдохе.",
@@ -34,7 +34,7 @@ const TRACKS: Track[] = [
   {
     title: "Контакт с собой",
     subtitle: "Свадхистана · Анахата · Аджна",
-    src: "/universal_self_contact_track.wav",
+    src: "/universal_self_contact_track.mp3",
     meta: "174 / 136.1 / 432 / 528 Гц · тета 6 Гц",
     description:
       "Мягкое возвращение внимания из внешнего шума к телу, дыханию и внутренней опоре. Перед чекапом или самонаблюдением.",
@@ -43,7 +43,7 @@ const TRACKS: Track[] = [
   {
     title: "Восстановление ресурса",
     subtitle: "Универсальная опора",
-    src: "/universal_resource_restoration_783hz_binaural.wav",
+    src: "/universal_resource_restoration_783hz_binaural.mp3",
     meta: "7.83 Гц Шуман · 174 / 285 / 432 Гц",
     description:
       "Расслабление после перегруза, мягкое возвращение в тело, подготовка к практике. 7 спокойных выдохов перед началом.",
