@@ -472,7 +472,7 @@ export default function Home(): React.ReactElement {
                 <div className="absolute -inset-4 rounded-[2.5rem] bg-linear-to-br from-sand/60 to-cream blur-2xl" />
                 <div className="relative aspect-square overflow-hidden rounded-3xl shadow-soft-lg">
                   <Image
-                    src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=900&q=80&auto=format&fit=crop"
+                    src="/11.jpg"
                     alt="Тишина и мягкий свет"
                     fill
                     sizes="(max-width: 1024px) 100vw, 480px"
